@@ -40,10 +40,10 @@ jobs:
         run: |
           git config --global user.name "ai4goodthings"  # 設定 git 使用者名稱
           git config --global user.email "ai4goodthings@gmail.com"  # 設定 git email
+          git add -A  # 加入所有變更
           if git diff --cached --quiet; then  # 檢查是否有變更
             echo "No changes to commit"
             exit 0
           fi
-          git add -A  # 加入所有變更
           git commit -m "更新鉅亨網新聞"  # 提交變更
           git push  # 推送到遠端 repository
