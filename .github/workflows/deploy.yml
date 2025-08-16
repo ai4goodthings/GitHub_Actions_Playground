@@ -1,0 +1,10 @@
+name: Deploy App
+on:
+  workflow_dispatch:
+
+jobs:
+  call-build:
+    uses: ai4goodthings/GitHub_Actions_Playground/.github/workflows/build.yml@main
+    
+    with:
+      version: "3.10"
