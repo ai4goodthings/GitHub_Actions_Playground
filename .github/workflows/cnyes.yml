@@ -2,8 +2,8 @@ name: 鉅亨網新聞抓取  # Workflow 名稱，會顯示在 GitHub Actions 頁
 
 
 on:
-  # schedule:  # 定時排程觸發（目前註解掉）
-    # - cron: "0 */2 * * *"  # 每 2 小時執行一次（UTC 時區，台灣時間 +8 小時）
+  schedule:  # 定時排程觸發（目前註解掉）
+    - cron: "0 0 * * *"  # 每天執行一次（UTC 時區，台灣時間 +8 小時）
   workflow_dispatch:       # 允許手動觸發（可在 GitHub Actions 頁面點擊執行）
 
 permissions:
