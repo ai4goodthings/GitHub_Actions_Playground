@@ -1,43 +1,49 @@
-name: 鉅亨網新聞抓取
+name: 鉅亨網新聞抓取  # Workflow 名稱，會顯示在 GitHub Actions 頁面
+
 
 on:
-  # schedule:
-    # - cron: "0 */2 * * *"  # 每天 UTC 00:00 執行（==台灣時間 +8 小時）
-  workflow_dispatch:       # 允許手動觸發
+  # schedule:  # 定時排程觸發（目前註解掉）
+    # - cron: "0 */2 * * *"  # 每 2 小時執行一次（UTC 時區，台灣時間 +8 小時）
+  workflow_dispatch:       # 允許手動觸發（可在 GitHub Actions 頁面點擊執行）
 
 permissions:
-  contents: write
+  contents: write  # 允許 workflow 有權限寫入 repository 內容（如 push 變更）
   
 jobs:
-  update-sheet:
-    runs-on: ubuntu-latest
+  update-sheet:  # 工作名稱
+    runs-on: ubuntu-latest  # 指定 runner 作業系統（這裡用 Ubuntu 最新版）
 
     steps:
+      # Step 1: 取得（checkout）目前 repository 的程式碼
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4  # 使用官方 checkout action
         with:
-          persist-credentials: true  # 預設即為 true，保險寫上
-          
+          persist-credentials: true  # 保留憑證，讓後續步驟可 push
+      
+      # Step 2: 設定 Python 環境
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4  # 使用官方 Python 環境 action
         with:
-          python-version: "3.10"
+          python-version: "3.10"  # 指定 Python 版本
 
+      # Step 3: 安裝相依套件
       - name: Install dependencies
         run: |
-          pip install requests pandas openpyxl
+          pip install requests pandas openpyxl  # 安裝所需 Python 套件
 
+      # Step 4: 執行 Python 抓取新聞腳本
       - name: Run script
-        run: python cnyes.py
-        
+        run: python cnyes.py  # 執行主程式
+      
+      # Step 5: 將結果（如 csv/excel）commit 並 push 回 GitHub
       - name: save csv
         run: |
-          git config --global user.name "ai4goodthings"
-          git config --global user.email "ai4goodthings@gmail.com"
-          if git diff --cached --quiet; then
+          git config --global user.name "ai4goodthings"  # 設定 git 使用者名稱
+          git config --global user.email "ai4goodthings@gmail.com"  # 設定 git email
+          if git diff --cached --quiet; then  # 檢查是否有變更
             echo "No changes to commit"
             exit 0
           fi
-          git add -A
-          git commit -m "更新鉅亨網新聞"
-          git push
+          git add -A  # 加入所有變更
+          git commit -m "更新鉅亨網新聞"  # 提交變更
+          git push  # 推送到遠端 repository
