@@ -1,10 +1,11 @@
 name: Build Reusable
 on:
-  workflow_call:
-    inputs:
-      version:
-        required: true
-        type: string
+  workflow_call: #keyword
+    inputs: #keyword 外部呼叫的參數名稱
+      version: #parameter name
+        required: true #keyword
+        type: string #keyword
+        default: "3.10" #keyword
 jobs:
   build:
     runs-on: ubuntu-latest
